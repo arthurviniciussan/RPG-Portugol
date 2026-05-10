@@ -12,12 +12,46 @@ programa {
 
   funcao inicio() {
     escolherClasse()
-    
-    inteiro tipoInimigo = 1 
-    criarInimigo(tipoInimigo)
-    
-   
-    combate(tipoInimigo - 1) 
+    criarInimigo(1)
+    combate(1)
+    resetClasse()
+
+    criarInimigo(2)
+    combate(2)
+    resetClasse()
+
+    criarInimigo(3)
+    combate(3)
+    resetClasse()
+
+    criarInimigo(4)
+    combate(4)
+    resetClasse()
+
+    criarInimigo(5)
+    combate(5)
+  }
+
+  funcao resetClasse() {
+    inteiro opcao
+    digitar("Gostaria de continuar com a mesma classe?\n")
+    digitar("Então escolha a mesma classe novamente...")
+    escreva("\n")
+    escreva(" Escolha : 1 - GUERREIRO | 2 - ASSASSINO | 3 - TANK \n > ")
+    leia(opcao)
+    limparTela()
+
+     enquanto (opcao < 1 ou opcao > 3) {
+      digitar(" Opção inválida! \n")
+      escreva(" Escolha : 1 - GUERREIRO | 2 - ASSASSINO | 3 - TANK \n > ")
+      leia(opcao)
+      limparTela()
+    }
+
+    criarPlayer(opcao)
+
+    digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
+    limparTela()
   }
 
   funcao escolherClasse() {
@@ -25,16 +59,19 @@ programa {
     digitar(" --- BEM VINDO AO RPG --- \n")
     escreva(" Escolha : 1 - GUERREIRO | 2 - ASSASSINO | 3 - TANK \n > ")
     leia(opcao)
+    limparTela()
 
     enquanto (opcao < 1 ou opcao > 3) {
       digitar(" Opção inválida! \n")
       escreva(" Escolha : 1 - GUERREIRO | 2 - ASSASSINO | 3 - TANK \n > ")
       leia(opcao)
+      limparTela()
     }
 
     criarPlayer(opcao)
-    // Ajuste aqui: opcao - 1 para pegar o nome certo no array
+
     digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
+    limparTela()
   }
 
   funcao criarPlayer(inteiro classe) {
@@ -62,19 +99,37 @@ programa {
   }
 
   funcao criarInimigo(inteiro tipo) {
-    se (tipo == 1) { 
-      statusInimigo[0] = 50 
-      statusInimigo[1] = 10 // Dano reduzido para teste
-      statusInimigo[2] = 2   
-      nomeInimigos[0] = "ESQUELETO"
+     se (tipo == 1) { // Esqueleto
+      statusInimigo[0] = 50 // Vida
+      statusInimigo[1] = 15 // Dano
+      statusInimigo[2] = 2 // Velocidade
+      nomeInimigos[1] = "ESQUELETO"
     }
-    senao se (tipo == 2) { 
-      statusInimigo[0] = 60 
-      statusInimigo[1] = 15 
-      statusInimigo[2] = 4 
-      nomeInimigos[1] = "GOBLIN"
+  senao se (tipo == 2) { // Goblin
+      statusInimigo[0] = 60 // Vida
+      statusInimigo[1] = 15 // Dano
+      statusInimigo[2] = 4 // Velocidade
+      nomeInimigos[2] = "GOLBIN"
     }
-    // ... (restante dos inimigos seguindo o mesmo padrão)
+  senao se (tipo == 3) { // Demônio
+      statusInimigo[0] = 60 // Vida
+      statusInimigo[1] = 20 // Dano
+      statusInimigo[2] = 4 // Velocidade
+      nomeInimigos[3] = "DEMÔNIO"
+    }
+  senao se (tipo == 4) { // Cavaleiro Negro
+      statusInimigo[0] = 100 // Vida
+      statusInimigo[1] = 20 // Dano
+      statusInimigo[2] = 5 // Velocidade
+      nomeInimigos[4] = "(BOSS) CAVALEIRO NEGRO"
+    }
+  senao se (tipo == 5) { // Rei Demônio
+      statusInimigo[0] = 130 // Vida
+      statusInimigo[1] = 23 // Dano
+      statusInimigo[2] = 5 // Velocidade
+      nomeInimigos[5] = "(FINAL BOSS) REI DEMÔNIO"
+
+} 
   }
 
   funcao combate(inteiro indiceInimigo) {
@@ -85,12 +140,14 @@ programa {
     escreva("\nUM " + nomeInimigos[indiceInimigo] + " APARECEU!!!\n")
     digitar("COMEÇA O COMBATE!\n")
     u.aguarde(1000)
+    limparTela()
 
     enquanto (statusPlayer[0] > 0 e statusInimigo[0] > 0) {
       escreva("\n-----------------------------------------")
       escreva("\nSua Vida : ", statusPlayer[0], " | Vida do Inimigo : ", statusInimigo[0], "\n")
       digitar("O que deseja fazer?\n 1 - Atacar | 2 - Curar | 3 - Sair \n > ")
       leia(opcao)
+      limparTela()
 
       se (opcao == 1) {
         numRandom = u.sorteia(0, 2)
@@ -101,18 +158,24 @@ programa {
         senao { digitar("ATAQUE CRÍTICO!!!\n") } 
         
         statusInimigo[0] -= (statusPlayer[1] * numRandom)
-
+        limparTela()
         se (statusInimigo[0] > 0) {
           numRandom = u.sorteia(0, 2)
           inteiro novoDanoInimigo = statusInimigo[1] * numRandom
           
-          se (numRandom == 0) { digitar("O inimigo errou o ataque!\n") }
+          se (numRandom == 0) { digitar("O inimigo errou o ataque!\n") limparTela() }
           senao { 
-            escreva("O inimigo te causou ", novoDanoInimigo, " de dano!\n")
+            digitar("O inimigo te causou ")
+            escreva(novoDanoInimigo)
+            digitar(" de dano!\n")
             statusPlayer[0] -= novoDanoInimigo
+            limparTela()
           }
         } senao {
-          escreva("Você derrotou o ", nomeInimigos[indiceInimigo], "!\n")
+          digitar("Você derrotou ")
+          escreva(nomeInimigos[indiceInimigo])
+          digitar("!\n")
+          limparTela()
         }
       }
       senao se (opcao == 2) {
@@ -120,21 +183,36 @@ programa {
           statusPlayer[0] += 30
           statusPlayer[3] -= 1
           digitar("Você se curou! Restam " + statusPlayer[3] + " curas.\n")
+          limparTela()
           
           se (statusPlayer[0] > vidaPlayerMax) {
             statusPlayer[0] = vidaPlayerMax
           }
         } senao {
           digitar("Sem poções de cura!\n")
+          limparTela()
         }
         
         inteiro danoExtra = statusInimigo[1] * u.sorteia(0, 1)
         statusPlayer[0] -= danoExtra
-        escreva("O inimigo te golpeou enquanto você se curava: -", danoExtra, "\n")
+        digitar(nomeInimigos[indiceInimigo] + " te golpeou enquanto você se curava: -" + danoExtra + "\n")
+        limparTela()
       }
       senao { pare }
     }
     digitar("\n --- FIM DO COMBATE --- \n")
+    limparTela()
+  }
+
+  // Funções utilitárias
+
+  funcao limparTela() {
+    cadeia texto = "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "
+    inteiro tamanho = txt.numero_caracteres(texto)
+    para (inteiro i = 0; i < tamanho; i++) {
+      escreva(txt.obter_caracter(texto, i))
+      u.aguarde(17)
+    }
   }
 
   funcao digitar (cadeia texto) {
