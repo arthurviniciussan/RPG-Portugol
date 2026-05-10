@@ -17,25 +17,30 @@ programa {
 
     // Esqueleto
     criarInimigo(1)
+    mostrarSala(1)
     combate(1)
     resetClasse()
 
     // Goblin
+    mostrarSala(2)
     criarInimigo(2)
     combate(2)
     resetClasse()
 
     // Demônio
+    mostrarSala(3)
     criarInimigo(3)
     combate(3)
     resetClasse()
 
     // Cavaleiro Negro
+    mostrarSala(4)
     criarInimigo(4)
     combate(4)
     resetClasse()
 
     // Rei Demônio
+    mostrarSala(5)
     criarInimigo(5)
     combate(5)
   }
@@ -85,7 +90,6 @@ programa {
     criarPlayer(opcao)
 
     digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
-    limparTela()
   }
 
 
@@ -93,21 +97,21 @@ programa {
   funcao criarPlayer(inteiro classe) {
     se (classe == 1) { 
       statusPlayer[0] = 100 // Vida
-      statusPlayer[1] = 15  // Dano
+      statusPlayer[1] = 20  // Dano
       statusPlayer[2] = 5   // Velocidade
-      statusPlayer[3] = 2   // Cura
+      statusPlayer[3] = 5   // Cura
       nomePlayer[0] = "GUERREIRO"
     }
     senao se (classe == 2) { 
       statusPlayer[0] = 50 
       statusPlayer[1] = 25 
       statusPlayer[2] = 6 
-      statusPlayer[3] = 4 
+      statusPlayer[3] = 3 
       nomePlayer[1] = "ASSASSINO"
     }
     senao se (classe == 3) { 
       statusPlayer[0] = 120 
-      statusPlayer[1] = 12 
+      statusPlayer[1] = 17 
       statusPlayer[2] = 2 
       statusPlayer[3] = 2 
       nomePlayer[2] = "TANK"
@@ -166,9 +170,19 @@ programa {
     enquanto (statusPlayer[0] > 0 e statusInimigo[0] > 0) {
       escreva("\n-----------------------------------------")
       escreva("\nSua Vida : ", statusPlayer[0], " | Vida do Inimigo : ", statusInimigo[0], "\n")
-      digitar("O que deseja fazer?\n 1 - Atacar | 2 - Curar | 3 - Sair \n > ")
+      digitar("O que deseja fazer?\n 1 - Atacar | 2 - Curar | 3 - Status \n > ")
       leia(opcao)
       limparTela()
+
+    enquanto (opcao < 1 ou opcao > 3) {
+      digitar(" Opção inválida! \n")
+      u.aguarde(1000)
+      escreva("\n-----------------------------------------")
+      escreva("\nSua Vida : ", statusPlayer[0], " | Vida do Inimigo : ", statusInimigo[0], "\n")
+      digitar("O que deseja fazer?\n 1 - Atacar | 2 - Curar | 3 - Status \n > ")
+      leia(opcao)
+      limparTela()
+    }
 
       se (opcao == 1) {
         numRandom = u.sorteia(0, 2)
@@ -219,10 +233,23 @@ programa {
         digitar(nomeInimigos[indiceInimigo] + " te golpeou enquanto você se curava: -" + danoExtra + "\n")
         limparTela()
       }
+      senao se (opcao == 3) {
+        mostrarStatus()
+        limparTela()
+      }
       senao { pare }
     }
     digitar("\n --- FIM DO COMBATE --- \n")
     limparTela()
+  }
+
+  funcao mostrarStatus() {
+    limpa()
+    escreva("Vida: " +statusPlayer[0] + " PV\n")
+    escreva("Ataque: " +statusPlayer[1] + " ATQ\n")
+    escreva("Velocidade: " +statusPlayer[2] + " VEL\n")
+    escreva("Quantidade de Curas: " +statusPlayer[3] + " C\n")
+    u.aguarde(1500)
   }
 
   // Funções utilitárias
@@ -242,5 +269,122 @@ programa {
       escreva(txt.obter_caracter(texto, i))
       u.aguarde(20)
     }
+  }
+
+    funcao digitarLento(cadeia texto) {
+    inteiro tamanho = txt.numero_caracteres(texto)
+    para (inteiro i = 0; i < tamanho; i++) {
+      escreva(txt.obter_caracter(texto, i))
+      u.aguarde(10)
+    }
+  }
+
+  funcao mostrarSala(inteiro sala) {
+    escolha(sala) {
+      caso 1:
+      limpa()
+      para(inteiro i = 0; i < 3; i++) {
+        escreva("* * * * * * * * * * *\n")
+        escreva("* * * * * * * * * * *\n")
+        escreva("*   * 2 * 3 * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+        escreva("* * * * * * * * * * *\n")
+        escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 * 3 * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+      }
+      limpa()
+      digitarLento("Sala 1          \n")
+      u.aguarde(450)
+      digitarLento("Entrando na caverna... \n")
+      
+      pare
+      caso 2:
+      limpa()
+        para(inteiro i = 0; i < 3; i++) {
+        escreva("* * * * * * * * * * *\n")  
+        escreva("* * * * * * * * * * *\n")  
+        escreva("* 1 *   * 3 * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+        escreva("* * * * * * * * * * *\n")  
+        escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 * 3 * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+      }
+      limpa()
+      digitarLento("Sala 2          \n")
+      u.aguarde(450)
+      digitarLento("Goblins a espreita...     \n")
+      
+      pare
+      caso 3:
+      limpa()
+        para(inteiro i = 0; i < 3; i++) {
+        escreva("* * * * * * * * * * *\n")
+        escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 *   * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+        escreva("* * * * * * * * * * *\n")
+        escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 * 3 * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+      }
+      limpa()
+      digitarLento("Sala 3          \n")
+      u.aguarde(450)
+      digitarLento("Uma água benta cairia bem...     \n")
+      
+      pare
+      caso 4:
+      limpa()
+        para(inteiro i = 0; i < 3; i++) {
+          escreva("* * * * * * * * * * *\n")
+          escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 * 3 *   * 5 *\n")
+        u.aguarde(450)
+        limpa()
+        escreva("* * * * * * * * * * *\n")
+        escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 * 3 * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+      }
+      limpa()
+      digitarLento("Sala 4          \n")
+      u.aguarde(450)
+      digitarLento("Lar do melhor espadachim do submundo...     \n")
+      u.aguarde(450)
+      
+      pare
+      caso 5:
+      limpa()
+       para(inteiro i = 0; i < 3; i++) {
+        escreva("* * * * * * * * * * *\n")
+        escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 * 3 * 4 *   *\n")
+        u.aguarde(450)
+        limpa()
+        escreva("* * * * * * * * * * *\n")
+        escreva("* * * * * * * * * * *\n")
+        escreva("* 1 * 2 * 3 * 4 * 5 *\n")
+        u.aguarde(450)
+        limpa()
+      }
+      limpa()
+      digitarLento("Sala 5 FINAL          \n")
+      u.aguarde(600)
+      digitarLento("É HORA DO EXPURGO FINAL!!!          \n")
+      u.aguarde(600)
+      
+      pare
+      
+    }
+    
   }
 }
