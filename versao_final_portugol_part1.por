@@ -11,26 +11,38 @@ programa {
   cadeia nomePlayer[3] = {"", "", ""}
 
   funcao inicio() {
+    //Fluxo de modo Boss Rush
+    //Inicio Jogo
     escolherClasse()
+
+    // Esqueleto
     criarInimigo(1)
     combate(1)
     resetClasse()
 
+    // Goblin
     criarInimigo(2)
     combate(2)
     resetClasse()
 
+    // Demônio
     criarInimigo(3)
     combate(3)
     resetClasse()
 
+    // Cavaleiro Negro
     criarInimigo(4)
     combate(4)
     resetClasse()
 
+    // Rei Demônio
     criarInimigo(5)
     combate(5)
   }
+
+
+
+  // Classes 
 
   funcao resetClasse() {
     inteiro opcao
@@ -54,6 +66,8 @@ programa {
     limparTela()
   }
 
+
+
   funcao escolherClasse() {
     inteiro opcao
     digitar(" --- BEM VINDO AO RPG --- \n")
@@ -73,6 +87,8 @@ programa {
     digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
     limparTela()
   }
+
+
 
   funcao criarPlayer(inteiro classe) {
     se (classe == 1) { 
@@ -97,6 +113,8 @@ programa {
       nomePlayer[2] = "TANK"
     }
   }
+
+
 
   funcao criarInimigo(inteiro tipo) {
      se (tipo == 1) { // Esqueleto
@@ -132,6 +150,9 @@ programa {
 } 
   }
 
+
+
+  // Fluxo de Combate
   funcao combate(inteiro indiceInimigo) {
     inteiro numRandom
     inteiro vidaPlayerMax = statusPlayer[0]
