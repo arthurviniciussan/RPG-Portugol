@@ -3,6 +3,8 @@ programa {
   inclua biblioteca Texto --> txt
   inclua biblioteca Tipos --> t
 
+  // Legenda
+
   // Globais
   inteiro statusPlayer[4] = {0, 0, 0, 0}
   inteiro statusInimigo[3] = {0, 0, 0}
@@ -45,6 +47,46 @@ programa {
     combate(5)
   }
 
+  // Login
+
+  funcao logico loginAdmin() {
+    cadeia nome = ""
+    cadeia senha = ""
+
+    escreva("Digite o seu nome: \n")
+    leia(nome)
+    escreva("Digite a sua senha: \n")
+    leia(senha)
+
+
+    se (nome == "admin" e senha == "admin123") {
+      digitar("Bem vindo ao modo admin...\n")
+      digitar("Aqui você pode modificar a classe do jogador e do inimigo\n")
+      menuAdmin()
+
+
+
+    }
+    retorne falso
+  }
+
+  funcao menuAdmin() {
+    inteiro opcao
+    limparTela()
+    digitar("Esse é o menu de admin\n")
+    digitar("O que você quer fazer?\n")
+    opcao = lerInteiro("Escolha:  1 - Escolher Classe | 2 - Escolher Inimigo | 3 - Iniciar Jogo \n")
+    se(opcao == 1) {
+      escolherClasseAdmin()
+    }
+    senao se (opcao == 2) {
+
+    }
+
+  }
+
+
+
   // Classes 
   funcao resetClasse() {
     inteiro opcao
@@ -80,6 +122,51 @@ programa {
     criarPlayer(opcao)
     digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
     u.aguarde(600)
+  }
+
+   funcao escolherClasseAdmin() {
+    digitar(" --- BEM VINDO A BLOODVINE ADMIN --- \n")
+    inteiro opcao
+    opcao = lerInteiro(" Escolha : 1 - GUERREIRO | 2 - ASSASSINO | 3 - TANK | 4 - STATUS \n > ")
+    limparTela()
+
+    enquanto (opcao < 1 ou opcao > 4) {
+      digitar(" Opção inválida! \n")
+      opcao = lerInteiro(" Escolha : 1 - GUERREIRO | 2 - ASSASSINO | 3 - TANK | 4 - STATUS \n > ")
+      limparTela()
+    }
+    se (opcao == 4) {
+      mostrarStatusAdmin()
+      limparTelaRapido()
+    }
+    senao {
+    criarPlayer(opcao)
+    digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
+    u.aguarde(600)
+   }
+  }
+
+
+  funcao escolherInimigoAdmin() {
+     digitar(" --- BEM VINDO A BLOODVINE ADMIN --- \n")
+    inteiro opcao
+    opcao = lerInteiro(" Escolha : 1 - ESQUELETO | 2 - GOBLIN | 3 - DEMÔNIO | 4 - CAVALEIRO NEGRO | 5 - REI DEMÔNIO | 6 STATUS \n > ")
+    limparTela()
+
+      enquanto (opcao < 1 ou opcao > 6) {
+      digitar(" Opção inválida! \n")
+      opcao = lerInteiro(" Escolha : 1 - ESQUELETO | 2 - GOBLIN | 3 - DEMÔNIO | 4 - CAVALEIRO NEGRO | 5 - REI DEMÔNIO  | 6 - STATUS \n > ")
+      limparTela()
+    }
+    se(opcao == 6) {
+      mostrarStatusInimigosAdmin()
+    }
+    senao{
+      criarInimigo(opcao)
+      digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
+      u.aguarde(600)
+    }
+
   }
 
   funcao criarPlayer(inteiro classe) {
@@ -260,6 +347,71 @@ programa {
     escreva("Quantidade de Curas: " + statusPlayer[3] + " C\n")
     u.aguarde(1500)
   }
+  funcao mostrarStatusAdmin() {
+    limpa()
+    escreva("Classe Guerreiro:\n")
+    escreva("Vida: " + "100" + " PV\n")
+    escreva("Ataque: " + "20" + " ATQ\n")
+    escreva("Velocidade: " + "5" + " VEL\n")
+    escreva("Quantidade de Curas: " + "5" + " C\n")
+
+    u.aguarde(400)
+
+    escreva("Classe Assassino:\n")
+    escreva("Vida: " + "50" + " PV\n")
+    escreva("Ataque: " + "25" + " ATQ\n")
+    escreva("Velocidade: " + "6" + " VEL\n")
+    escreva("Quantidade de Curas: " + "3" + " C\n")
+    
+    u.aguarde(400)
+
+    escreva("Classe Tank:\n")
+    escreva("Vida: " + "120" + " PV\n")
+    escreva("Ataque: " + "18" + " ATQ\n")
+    escreva("Velocidade: " + "2" + " VEL\n")
+    escreva("Quantidade de Curas: " + "2" + " C\n")
+
+    u.aguarde(1500)
+  }
+
+
+  funcao mostrarStatusInimigosAdmin() {
+      limpa()
+    escreva("Inimigo Esqueleto:\n")
+    escreva("Vida: " + "50" + " PV\n")
+    escreva("Ataque: " + "15" + " ATQ\n")
+    escreva("Velocidade: " + "5" + " VEL\n")
+
+    u.aguarde(400)
+
+    escreva("Inimigo Globin:\n")
+    escreva("Vida: " + "60" + " PV\n")
+    escreva("Ataque: " + "15" + " ATQ\n")
+    escreva("Velocidade: " + "4" + " VEL\n")
+    
+    u.aguarde(400)
+
+    escreva("Inimigo Demônio:\n")
+    escreva("Vida: " + "60" + " PV\n")
+    escreva("Ataque: " + "20" + " ATQ\n")
+    escreva("Velocidade: " + "4" + " VEL\n")
+
+    u.aguarde(400)
+
+    escreva("Inimigo Cavaleiro Negro:\n")
+    escreva("Vida: " + "100" + " PV\n")
+    escreva("Ataque: " + "20" + " ATQ\n")
+    escreva("Velocidade: " + "6" + " VEL\n")
+
+    u.aguarde(400)
+
+    escreva("Inimigo Rei Demônio:\n")
+    escreva("Vida: " + "130" + " PV\n")
+    escreva("Ataque: " + "23" + " ATQ\n")
+    escreva("Velocidade: " + "4" + " VEL\n")
+
+    u.aguarde(1500)
+  }
 
   // Funções utilitárias
   funcao limparTela() {
@@ -294,6 +446,9 @@ programa {
       u.aguarde(10)
     }
   }
+
+
+  // Graficos
 
   funcao mostrarSala(inteiro sala) {
     escolha(sala) {
