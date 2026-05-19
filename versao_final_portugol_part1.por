@@ -12,78 +12,158 @@ programa {
   cadeia nomeInimigos[6] = {"", "", "", "", "", ""}
   cadeia nomePlayer[3] = {"", "", ""}
 
-  funcao inicio() {
+ funcao inicio() {
 
-    // Fluxo de modo Boss Rush
-    escolherClasse()
+  inteiro opcao
 
-    // Esqueleto
-    criarInimigo(1)
-    mostrarSala(1)
-    combate(1)
-    resetClasse()
+  digitar("===== BLOODVINE RPG =====\n")
+  digitar("1 - Jogar\n")
+  digitar("2 - Admin\n")
+  digitar("3 - Sair\n")
 
-    // Goblin
-    mostrarSala(2)
-    criarInimigo(2)
-    combate(2)
-    resetClasse()
+  opcao = lerInteiro("> ")
 
-    // Demônio
-    mostrarSala(3)
-    criarInimigo(3)
-    combate(3)
-    resetClasse()
-
-    // Cavaleiro Negro
-    mostrarSala(4)
-    criarInimigo(4)
-    combate(4)
-    resetClasse()
-
-    // Rei Demônio
-    mostrarSala(5)
-    criarInimigo(5)
-    combate(5)
+  enquanto(opcao < 1 ou opcao > 3){
+    digitar("Opção inválida!\n")
+    opcao = lerInteiro("> ")
   }
+
+  se(opcao == 1){
+    iniciarJogo()
+  }
+  senao se(opcao == 2){
+
+    se(loginAdmin()){
+      menuAdmin()
+    }
+    senao{
+      digitar("Login inválido!\n")
+    }
+
+  }
+  senao{
+    digitar("Saindo do jogo...\n")
+  }
+}
+
+// Iniciar Jogos
+
+funcao iniciarJogoAdmin(inteiro classe, inteiro inimigo) {
+  criarPlayer(classe)
+  criarInimigo(inimigo)
+  combate(inimigo)
+  menuAdmin()
+}
+
+funcao iniciarJogo(){
+
+  // Fluxo de modo Boss Rush
+  escolherClasse()
+
+  // Esqueleto
+  criarInimigo(1)
+  mostrarSala(1)
+  combate(1)
+  resetClasse()
+
+  // Goblin
+  mostrarSala(2)
+  criarInimigo(2)
+  combate(2)
+  resetClasse()
+
+  // Demônio
+  mostrarSala(3)
+  criarInimigo(3)
+  combate(3)
+  resetClasse()
+
+  // Cavaleiro Negro
+  mostrarSala(4)
+  criarInimigo(4)
+  combate(4)
+  resetClasse()
+
+  // Rei Demônio
+  mostrarSala(5)
+  criarInimigo(5)
+  combate(5)
+
+  digitar("\nPARABÉNS! VOCÊ ZEROU O BLOODVINE RPG!\n")
+}
 
   // Login
 
   funcao logico loginAdmin() {
-    cadeia nome = ""
-    cadeia senha = ""
 
-    escreva("Digite o seu nome: \n")
-    leia(nome)
-    escreva("Digite a sua senha: \n")
-    leia(senha)
+  cadeia nome = ""
+  cadeia senha = ""
 
+  escreva("Digite o seu nome:\n")
+  leia(nome)
 
-    se (nome == "admin" e senha == "admin123") {
-      digitar("Bem vindo ao modo admin...\n")
-      digitar("Aqui você pode modificar a classe do jogador e do inimigo\n")
-      menuAdmin()
+  escreva("Digite a sua senha:\n")
+  leia(senha)
 
+  se(nome == "admin" e senha == "admin123"){
 
+    digitar("Bem vindo ao modo admin...\n")
+    digitar("Aqui você pode modificar a classe do jogador e do inimigo\n")
 
-    }
-    retorne falso
+    retorne verdadeiro
   }
 
-  funcao menuAdmin() {
-    inteiro opcao
+  retorne falso
+}
+
+  funcao menuAdmin(){
+
+  inteiro opcao = 0
+  inteiro classe = 1
+  inteiro inimigo = 1
+
+  enquanto(opcao != 4){
+
     limparTela()
-    digitar("Esse é o menu de admin\n")
-    digitar("O que você quer fazer?\n")
-    opcao = lerInteiro("Escolha:  1 - Escolher Classe | 2 - Escolher Inimigo | 3 - Iniciar Jogo \n")
-    se(opcao == 1) {
-      escolherClasseAdmin()
+
+    digitar("===== MENU ADMIN =====\n")
+    digitar("1 - Escolher Classe\n")
+    digitar("2 - Escolher Inimigo\n")
+    digitar("3 - Iniciar Jogo\n")
+    digitar("4 - Sair\n")
+
+    opcao = lerInteiro("> ")
+
+    enquanto(opcao < 1 ou opcao > 4){
+      digitar("Opção inválida!\n")
+      opcao = lerInteiro("> ")
     }
-    senao se (opcao == 2) {
+
+    se(opcao == 1){
+
+      classe = escolherClasseAdmin()
 
     }
+    senao se(opcao == 2){
 
+      inimigo = escolherInimigoAdmin()
+
+    }
+    senao se(opcao == 3){
+
+      digitar("Iniciando jogo...\n")
+      u.aguarde(1000)
+
+      iniciarJogoAdmin(classe, inimigo)
+
+    }
+    senao{
+
+      digitar("Saindo do menu admin...\n")
+      retorne
+    }
   }
+}
 
 
 
@@ -124,7 +204,7 @@ programa {
     u.aguarde(600)
   }
 
-   funcao escolherClasseAdmin() {
+   funcao inteiro escolherClasseAdmin() {
     digitar(" --- BEM VINDO A BLOODVINE ADMIN --- \n")
     inteiro opcao
     opcao = lerInteiro(" Escolha : 1 - GUERREIRO | 2 - ASSASSINO | 3 - TANK | 4 - STATUS \n > ")
@@ -143,11 +223,12 @@ programa {
     criarPlayer(opcao)
     digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
     u.aguarde(600)
+    retorne opcao
    }
   }
 
 
-  funcao escolherInimigoAdmin() {
+  funcao inteiro escolherInimigoAdmin() {
      digitar(" --- BEM VINDO A BLOODVINE ADMIN --- \n")
     inteiro opcao
     opcao = lerInteiro(" Escolha : 1 - ESQUELETO | 2 - GOBLIN | 3 - DEMÔNIO | 4 - CAVALEIRO NEGRO | 5 - REI DEMÔNIO | 6 STATUS \n > ")
@@ -163,8 +244,9 @@ programa {
     }
     senao{
       criarInimigo(opcao)
-      digitar("\nVOCÊ ESCOLHEU A CLASSE " + nomePlayer[opcao-1] + "!!!\n")
+      digitar("\nVOCÊ ESCOLHEU O INIMIGO " + nomeInimigos[opcao] + "!!!\n")
       u.aguarde(600)
+      retorne opcao
     }
 
   }
